@@ -1,9 +1,60 @@
-import example.pepita
+import elementos.*
+describe "Test de elementos que son atacados por plagas" {
+  const cucas1 = new Cucarachas(poblacion=15,pesoPromedioBicho=8)
+  const cucas2 = new Cucarachas(poblacion=25,pesoPromedioBicho=12)
+  const pulgas1 = new Pulgas(poblacion=8)
+  const pulgas2 = new Pulgas(poblacion=18)
+  const garra1 = new Garrapatas(poblacion=10)
+  const mosqu1 = new Mosquitos(poblacion=50)
+  const hogar1 = new Hogar(mugre=10,confort=50)
+  const huerta1 = new Huerta(produccion=100)
+  const firulais = new Mascota(salud=300)
+  const pichichus = new Mascota(salud=100)
 
-describe "group of tests for pepita" {
-
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  test "Un hogar con 10 de mugre es atacado por cucas1 entonces mugre pasa a 17.5" {
+    hogar1.recibirAtaque(cucas1)
+    assert.equals(17.5,hogar1.mugre())
+  }
+  test "huerta1 recibe un ataque de mosqu1 entonces la produccion baja a 95" {
+    huerta1.recibirAtaque(mosqu1)
+    assert.equals(95, huerta1.produccion())
   }
 
+  test "huerta1 no es buena porque el nivel minimo se seteo en 200 y la produccion es 100" {
+    nivelMinimoDeProduccion.valor(200)
+    assert.notThat(huerta1.esBueno())
+  }
+}
+
+//Plagas
+describe "test de los ataques que hacen las plagas a los elementos" {
+  const cucas1 = new Cucarachas(poblacion=15,pesoPromedioBicho=8)
+  const cucas2 = new Cucarachas(poblacion=25,pesoPromedioBicho=12)
+  const pulgas1 = new Pulgas(poblacion=8)
+  const pulgas2 = new Pulgas(poblacion=18)
+  const garra1 = new Garrapatas(poblacion=10)
+  const mosqu1 = new Mosquitos(poblacion=50)
+  const hogar1 = new Hogar(mugre=10,confort=50)
+  const huerta1 = new Huerta(produccion=100)
+  const firulais = new Mascota(salud=300)
+  const pichichus = new Mascota(salud=100)
+
+  test "cucas1 ataca a hogar1 entonces hogar queda con mugre 17.5 y cucas1 queda con poblacion 16.5" {
+    cucas1.atacarA(hogar1)
+    assert.equals(17.5,hogar1.mugre())
+    assert.equals(16.5,cucas1.poblacion())
+  }
+
+  test "garra1 ataca a pichichus 2 veces. garra1 queda con 14.4 y pichichus queda con salud 56" {
+    garra1.atacarA(pichichus)
+    garra1.atacarA(pichichus)
+    assert.equals(56,pichichus.salud())
+    assert.equals(14.4,garra1.poblacion())
+  }
+
+  test "pulgas2 ataca a firulais entonces quedan pulgas1 19,8 y firulais con salud 284" {
+    pulgas2.atacarA(firulais)
+    assert.equals(19.8,pulgas2.poblacion())
+    assert.equals(264,firulais.salud())
+  }
 }
